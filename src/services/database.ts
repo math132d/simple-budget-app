@@ -18,12 +18,18 @@ function getDatabase(): Promise<IDBDatabase> {
 function writeTransaction(
   db: IDBDatabase,
   store: string,
-  operation: (store: IDBObjectStore) => void
-) {
-  const transaction = db.transaction(store, "readwrite");
-  const s = transaction.objectStore(store);
+  operation: (store: IDBObjectStore) => IDBRequest<any> | void
+): Promise<any> {
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(store, "readwrite");
+    const s = transaction.objectStore(store);
 
-  operation(s);
+    const res = operation(s);
+
+    transaction.oncomplete = () => resolve(res?.result || undefined);
+    transaction.onerror = () => reject(transaction.error);
+    transaction.onabort = () => reject(transaction.error);
+  });
 }
 
 function readTransaction(
@@ -56,7 +62,7 @@ function initDatabase(this: IDBOpenDBRequest, event: IDBVersionChangeEvent) {
       autoIncrement: true,
     });
 
-    let index = expenses.createIndex("budget_idx", "budget_id");
+    expenses.createIndex("budget_idx", "budget_id");
   }
 }
 

@@ -28,7 +28,7 @@ const periodWord = wordFromPeriod(budget.value.budget.period);
 async function remove() {
   const db = await getDatabase();
 
-  writeTransaction(db, "budgets", (store) => {
+  await writeTransaction(db, "budgets", (store) => {
     if (budget.value.budget.id) {
       store.delete(budget.value.budget.id);
     }
