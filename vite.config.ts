@@ -12,6 +12,11 @@ export default defineConfig({
   plugins: [
     vue({
       reactivityTransform: true,
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => tag.includes("ion-icon"),
+        },
+      },
     }),
   ],
 });
