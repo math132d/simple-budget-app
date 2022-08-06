@@ -47,48 +47,60 @@ onMounted(() => {
 
 <template>
   <Overlay>
-    <form class="flex flex-col space-y-4" @click.stop>
-      <h1 class="text-3xl font-bold">New Budget</h1>
+    <form
+      class="flex flex-col space-y-4"
+      @click.stop
+      @submit.stop.prevent="save()"
+    >
+      <h1 class="text-lg font-bold uppercase">New Budget</h1>
       <label class="flex flex-col">
-        <span class="uppercase text-sm">Name</span>
+        <span class="text-sm uppercase">Name</span>
         <input
           ref="input_name"
           v-model="name"
-          class="rounded"
+          class="rounded-full border-slate-600 focus:border-slate-600 focus:ring-2 focus:ring-slate-600"
           type="text"
           name="name"
+          autocomplete="off"
         />
       </label>
       <label class="flex flex-col">
-        <span class="uppercase text-sm">Budget</span>
+        <span class="text-sm uppercase">Budget</span>
         <input
           v-model="budget"
-          placeholder="0"
-          class="rounded"
+          placeholder="0.00"
+          class="rounded-full border-slate-600 focus:border-slate-600 focus:ring-2 focus:ring-slate-600"
           type="number"
           name="value"
         />
       </label>
       <label class="flex flex-col">
-        <span class="uppercase text-sm">Period</span>
-        <select v-model="period" class="rounded" name="period">
+        <span class="text-sm uppercase">Period</span>
+        <select
+          v-model="period"
+          class="rounded-full border-slate-600 focus:border-slate-600 focus:ring-2 focus:ring-slate-600"
+          name="period"
+        >
           <option v-for="period of periods" :value="period.id">
             {{ period.name }}
           </option>
         </select>
       </label>
       <label class="flex flex-col">
-        <span class="uppercase text-sm">Breakdown</span>
-        <select v-model="breakdown" class="rounded" name="period">
+        <span class="text-sm uppercase">Breakdown</span>
+        <select
+          v-model="breakdown"
+          class="rounded-full border-slate-600 focus:border-slate-600 focus:ring-2 focus:ring-slate-600"
+          name="period"
+        >
           <option v-for="period of periods" :value="period.id">
             {{ period.name }}
           </option>
         </select>
       </label>
       <button
-        @click="save()"
         type="submit"
-        class="px-3 py-3 text-lg bg-green-500 rounded font-bold text-green-50 justify-self-end"
+        class="justify-self-end rounded-full bg-slate-500 px-3 py-3 text-base font-bold text-green-50"
       >
         Save
       </button>

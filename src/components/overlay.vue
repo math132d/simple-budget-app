@@ -7,10 +7,10 @@ const router = useRouter();
 <template>
   <div
     @click="router.replace('/budgets')"
-    class="w-full h-full flex justify-center items-center pointer-events-auto bg-slate-900/10"
+    class="pointer-events-auto flex h-full w-full items-center justify-center bg-slate-900/10"
   >
     <div
-      class="w-min h-min shadow-2xl rounded-3xl p-4 pointer-events-auto bg-white"
+      class="pointer-events-auto h-min max-h-screen w-min overflow-auto rounded-3xl bg-white p-4 shadow-2xl"
     >
       <slot></slot>
     </div>
