@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { differenceInDays, isAfter } from "date-fns";
 import { Ref, ref, toRefs } from "vue";
-import { useRouter } from "vue-router";
 import { BudgetViewModel, Expense } from ".";
 import { getDatabase, writeTransaction } from "../../services/database";
 import { wordFromPeriod } from "../../services/periodService";
+import format from "date-fns/format";
 import version from "../../services/version";
 
 const today = new Date();
@@ -23,6 +23,8 @@ const daysUntilNextBreakdown = Math.max(
 
 const breakdownWord = wordFromPeriod(budget.value.budget.breakdown);
 const periodWord = wordFromPeriod(budget.value.budget.period);
+
+const formattedDate = format(today, "E do'\n'MMMM");
 
 async function remove() {
   const db = await getDatabase();
@@ -69,10 +71,10 @@ async function addExpense() {
       <ion-icon class="text-2xl" name="albums"></ion-icon>
       <span class="pl-4"> {{ budget.budget.name || "Default" }}</span>
     </h2>
-    <div class="mb-4 grid flex-grow grid-cols-2">
+    <div class="mb-4 grid flex-grow grid-cols-2 gap-2">
       <div>
         <h3 class="text-sm font-bold uppercase">
-          remaining this {{ breakdownWord }}
+          left this {{ breakdownWord }}
         </h3>
         <p class="text-xl">
           <span class="font-bold">$</span>
@@ -87,12 +89,19 @@ async function addExpense() {
       </div>
       <template v-if="expanded">
         <div>
-          <h3 class="text-sm font-bold uppercase">total</h3>
+          <h3 class="text-sm font-bold uppercase">
+            total this {{ periodWord }}
+          </h3>
           <p class="text-xl">
             <span class="font-bold">$</span>
             {{ (budget.usedThisPeriod || 0).toFixed(2) }} /
             {{ budget.budget.limitPerPeriod.toFixed(2) }}
           </p>
+        </div>
+        <div class="text-right">
+          <pre class="font-sans text-base">
+              {{ formattedDate }}
+          </pre>
         </div>
       </template>
     </div>
