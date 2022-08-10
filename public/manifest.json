@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+  "name": "SaveMoneyNator",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#16A34A",
+  "description": "Keep that money in check",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any"
+    }
+  ]
+}
