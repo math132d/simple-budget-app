@@ -3,11 +3,12 @@ import { computed } from "@vue/reactivity";
 import { ComputedRef, toRefs } from "vue";
 
 function evenRandom(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min) + min);
+  return Math.floor(rng() * (max - min) + min);
 }
 
-const props = defineProps<{ positive: boolean }>();
-const { positive } = toRefs(props);
+const props = defineProps<{ positive: boolean; seed: string }>();
+const { positive, seed } = toRefs(props);
+const rng = new Math.seedrandom(seed);
 
 const sign: ComputedRef<"+" | "-"> = computed(() => {
   return positive.value ? "+" : "-";
@@ -15,11 +16,12 @@ const sign: ComputedRef<"+" | "-"> = computed(() => {
 
 const color = evenRandom(0, 3);
 
+const animationSpeed = evenRandom(8, 18);
 const smallestCircle = evenRandom(20, 60);
 const iterations = evenRandom(3, 7);
 
-const x = evenRandom(40, 60);
-const y = evenRandom(40, 60);
+const x = evenRandom(0, 100);
+const y = evenRandom(0, 100);
 
 const classes = {
   "+": [
@@ -99,7 +101,8 @@ const classes = {
         class="animated drop-shadow-xl filter"
         :class="classes[sign][color][iterations - i]"
         :style="{
-          animationDelay: `${500 * i}ms`,
+          animationDelay: `${(300 - animationSpeed * 10) * i}ms`,
+          animationDuration: `${animationSpeed}s`,
         }"
       ></circle>
     </g>

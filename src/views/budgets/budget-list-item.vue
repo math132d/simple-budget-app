@@ -65,6 +65,7 @@ async function addExpense() {
     @contextmenu.prevent="remove()"
   >
     <SvgBackground
+      :seed="budget.budget.name"
       :positive="budget.availibleThisBreakdown >= 0"
       class="pointer-events-none absolute inset-0 -z-10 h-full w-full rounded-xl"
     />
@@ -72,7 +73,7 @@ async function addExpense() {
       <ion-icon class="text-2xl" name="albums"></ion-icon>
       <span class="pl-4"> {{ budget.budget.name || "Default" }}</span>
     </h2>
-    <div class="mb-4 grid flex-grow grid-cols-2 gap-2 drop-shadow-md filter">
+    <div class="mb-2 grid flex-grow grid-cols-2 gap-2 drop-shadow-md filter">
       <div>
         <h3 class="text-sm font-bold uppercase">
           left this {{ breakdownWord }}
@@ -88,23 +89,25 @@ async function addExpense() {
           {{ daysUntilNextBreakdown }}
         </p>
       </div>
-      <template v-if="expanded">
-        <div>
-          <h3 class="text-sm font-bold uppercase">
-            total this {{ periodWord }}
-          </h3>
-          <p class="text-xl">
-            <span class="font-bold">$</span>
-            {{ (budget.usedThisPeriod || 0).toFixed(2) }} /
-            {{ budget.budget.limitPerPeriod.toFixed(2) }}
-          </p>
-        </div>
-        <div class="text-right">
-          <pre class="font-sans text-base">
+      <transition name="fadeHeight" mode="out-in">
+        <div class="col-span-2 grid grid-cols-2" v-if="expanded">
+          <div>
+            <h3 class="text-sm font-bold uppercase">
+              total this {{ periodWord }}
+            </h3>
+            <p class="text-xl">
+              <span class="font-bold">$</span>
+              {{ (budget.usedThisPeriod || 0).toFixed(2) }} /
+              {{ budget.budget.limitPerPeriod.toFixed(2) }}
+            </p>
+          </div>
+          <div class="text-right">
+            <pre class="font-sans text-base leading-5">
               {{ formattedDate }}
-          </pre>
+            </pre>
+          </div>
         </div>
-      </template>
+      </transition>
     </div>
     <form
       class="absolute inset-x-4 -bottom-6 flex h-12 justify-between rounded-full bg-slate-500 shadow-lg hover:bg-slate-600 active:bg-slate-600"
@@ -125,3 +128,16 @@ async function addExpense() {
     </form>
   </div>
 </template>
+
+<style>
+.fadeHeight-enter-active,
+.fadeHeight-leave-active {
+  transition: all 0.2s;
+  max-height: 60px;
+}
+.fadeHeight-enter-from,
+.fadeHeight-leave-to {
+  opacity: 0;
+  max-height: 0px;
+}
+</style>
