@@ -89,17 +89,14 @@ const classes = {
       height="100%"
       :class="classes[sign][color][2]"
     ></rect>
-    <g
-      :style="{ transform: `translate(${x}%, ${y}%)` }"
-      style="transform-origin: center center"
-    >
+    <g :style="{ transform: `translate(${x}%, ${y}%)` }">
       <circle
         v-for="i in iterations"
-        cx="50%"
-        cy="50%"
+        cx="0"
+        cy="0"
         :x="color"
         :r="smallestCircle * (iterations + 1) - smallestCircle * i"
-        class="animated drop-shadow-xl filter"
+        class="animated"
         :class="classes[sign][color][iterations - i]"
         :style="{
           animationDelay: `${(300 - animationSpeed * 10) * i}ms`,
@@ -118,7 +115,7 @@ const classes = {
 }
 
 .animated {
-  transform-origin: center center;
+  transform-origin: top left;
   animation-name: bubble;
   animation-duration: 15s;
   animation-iteration-count: infinite;
