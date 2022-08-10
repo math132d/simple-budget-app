@@ -6,6 +6,7 @@ import { getDatabase, writeTransaction } from "../../services/database";
 import { wordFromPeriod } from "../../services/periodService";
 import format from "date-fns/format";
 import version from "../../services/version";
+import SvgBackground from "../../components/SvgBackground.vue";
 
 const today = new Date();
 
@@ -60,13 +61,13 @@ async function addExpense() {
 
 <template>
   <div
-    class="relative mb-6 flex h-min cursor-pointer select-none flex-col rounded-xl bg-gradient-to-bl p-4 text-slate-50"
+    class="relative z-0 mb-6 flex h-min cursor-pointer select-none flex-col rounded-xl p-4 text-slate-50"
     @contextmenu.prevent="remove()"
-    :class="{
-      'from-green-500 to-green-600': budget.availibleThisBreakdown >= 0,
-      'from-red-500 to-red-600': budget.availibleThisBreakdown < 0,
-    }"
   >
+    <SvgBackground
+      :positive="budget.availibleThisBreakdown >= 0"
+      class="pointer-events-none absolute inset-0 -z-10 h-full w-full rounded-xl"
+    />
     <h2 class="mb-2 flex items-center text-lg uppercase">
       <ion-icon class="text-2xl" name="albums"></ion-icon>
       <span class="pl-4"> {{ budget.budget.name || "Default" }}</span>
@@ -123,36 +124,4 @@ async function addExpense() {
       </button>
     </form>
   </div>
-  <!-- <div
-    @contextmenu.prevent="remove()"
-    class="flex bg-white hover:bg-slate-50 select-none rounded cursor-pointer"
-  >
-    <div class="flex-grow m-2">
-      <h2 class="text-lg font-bold mb-2">
-        {{ budget.budget.name || "Default" }}
-      </h2>
-      <div class="grid sm:grid-cols-3">
-        <BudgetListItemValueCell
-          :header="`remaining this ${breakdownWord}`"
-          :value="budget.availibleThisBreakdown || 0"
-        />
-        <BudgetListItemValueCell
-          :header="`spent this ${periodWord}`"
-          :positive="budget.availibleThisBreakdown >= 0"
-          :value="budget.usedThisPeriod"
-        />
-        <BudgetListItemValueCell
-          header="Days Remaining"
-          :currency="false"
-          :value="daysUntilNextBreakdown"
-        />
-      </div>
-    </div>
-    <div
-      @click.prevent="router.push(`/budgets/${budget.budget.id}/expense`)"
-      class="hover:bg-slate-200 active:bg-slate-300 text-4xl aspect-square flex justify-center items-center px-6 rounded-r"
-    >
-      <span class="drop-shadow-lg">💸</span>
-    </div>
-  </div> -->
 </template>
