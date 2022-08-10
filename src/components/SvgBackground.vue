@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { computed } from "@vue/reactivity";
 import { ComputedRef, toRefs } from "vue";
+import { prng_alea } from "esm-seedrandom";
 
 function evenRandom(min: number, max: number): number {
   return Math.floor(rng() * (max - min) + min);
@@ -8,7 +9,7 @@ function evenRandom(min: number, max: number): number {
 
 const props = defineProps<{ positive: boolean; seed: string }>();
 const { positive, seed } = toRefs(props);
-const rng = new Math.seedrandom(seed);
+const rng = prng_alea(seed.value);
 
 const sign: ComputedRef<"+" | "-"> = computed(() => {
   return positive.value ? "+" : "-";
