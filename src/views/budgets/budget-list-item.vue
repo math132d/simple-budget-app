@@ -72,7 +72,7 @@ async function addExpense() {
       <ion-icon class="text-2xl" name="albums"></ion-icon>
       <span class="pl-4"> {{ budget.budget.name || "Default" }}</span>
     </h2>
-    <div class="mb-4 grid flex-grow grid-cols-2 gap-2">
+    <div class="mb-4 grid flex-grow grid-cols-2 gap-2 drop-shadow-md filter">
       <div>
         <h3 class="text-sm font-bold uppercase">
           left this {{ breakdownWord }}
